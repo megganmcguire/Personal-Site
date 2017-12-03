@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <title>Rubrik Generator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Script imports -->
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="rubrik.js"></script>
+
+    
+    <style>
+
+        div.page
+        {
+            page-break-after: always;
+            page-break-inside: avoid;
+        }
+
+        #userArea, #resultWidth {
+            width: 900px;
+        }
+
+        @media print{
+            #userArea{display:none;}
+        }
+
+    </style>
+
+</head>
+<body onload="onload();">
+
+<div class="container page" id="userArea" style="margin-bottom: 20px;">
+        <form>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#synth" aria-expanded="false" aria-controls="collapseExample" onclick="synthToggle();">Synthesis Paper</button>
+
+
+            <div class="form-group row">
+                <label for="assignment" class="col-3 col-form-label">Assignment</label>
+                <div class="col-9">
+                    <input class="form-control" type="text" id="assignment" value="Formal Paper 1">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="student" class="col-3 col-form-label">Student Name</label>
+                <div class="col-9">
+                    <input class="form-control" type="text" id="student" placeholder="John Smith">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-7">
+                    <p><b>Misreading:</b> Did you read ALL parts of the article(s) accurately?</p>
+                </div>
+                <div class="col-5">
+                    <div class="form-check btn-group" data-toggle="buttons">
+                        <label class="form-check-label btn btn-primary button_width">
+                            <input class="form-check-input" type="radio" name="misreading" id="misreading1" value="You have misread a substantial part of the author(s)'s argument(s). This renders your entire argument invalid. " >
+                            1
+                        </label>
+                        <label class="form-check-label btn btn-primary button_width">
+                            <input class="form-check-input" type="radio" name="misreading" id="misreading2" value="You misread a portion of the author(s)'s argument. This compromises a piece of your argument. " >
+                            2
+                        </label>
+                        <label class="form-check-label btn btn-primary button_width">
+                            <input class="form-check-input" type="radio" name="misreading" id="misreading3" value="You demonstrate an entirely accurate reading of the author(s)'s argument(s). " >
+                            3
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <p><b>Thesis Statement:</b> Does the thesis answer all parts of the prompt and address the “what”, the “how”, and the “why” directly?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="thesis" id="thesis1" value="The thesis does not answer the prompt question at all. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="thesis" id="thesis2" value="The thesis answers the prompt question partially, and your central argument is unclear. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="thesis" id="thesis3" value="The thesis answers the prompt question, but does so in a vague fashion. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="thesis" id="thesis4" value="The thesis answers the prompt question and offers sufficient detail about the &quot;what,&quot; the &quot;how,&quot; and the &quot;why.&quot; " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="thesis" id="thesis5" value="he thesis answers prompt question, but also presents a new insight on the issue at hand. You have gone above and beyond the assignment's requirements and may have broken new ground for this particular topic. " >
+                    5
+                </label>
+            </div>
+
+            <p><b>Overall Organization:</b> Does your essay follow a distinct and effective organizational pattern? (e.g. a clearly defined introduction with a clear thesis, organized and differentiated body paragraphs, and a conclusion that provides a sense of finality)?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="overallorganization" id="overorg1" value="The essay lacks a clear organizational pattern: your claims are scattered in a way that derails your argument entirely. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="overallorganization" id="overorg2" value="Your essay is largely disorganized, but has a few moments of clarity. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="overallorganization" id="overorg3" value="Your essay does have a discernable organization pattern, but there are moments where your logic jumps abruptly or you veer off-topic. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="overallorganization" id="overorg4" value="Generally, your essay is well-structured and your logic flows smoothly. There are, however, moments where you could restructure to make the logic cleaner and more readable. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="overallorganization" id="overorg5" value="Your essay's organizational pattern was extremely clear without being too formulaic. " >
+                    5
+                </label>
+            </div>
+
+            <p><b>Paragraph Organization:</b> Are your body paragraphs focused, and do they develop one unit of thought as thoroughly as possible?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="paragraphorganization" id="parorg1" value="On the paragraph level, your argument was completely unstructured. Paragraphs should be a very focused unit of thought, but your paragraphs lacked a clear and discernable argument. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="paragraphorganization" id="parorg2" value="Your paragraph is largely unstructured, but may have some moments of unity and clarity. A body paragraph should be a very focused unit of thought and develop that thought as thoroughly as possible. Yours did not accomplish this particular goal. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="paragraphorganization" id="parorg3" value="For the most part, your paragraphs do stay focused on one unit of thought at a time (a distinct claim), but there are instances where you start to veer off-topic or you make large, abrupt logical jumps.A body paragraph should be a very focused unit of thought and develop that thought as thoroughly as possible. Yours did not accomplish this particular goal fully. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="paragraphorganization" id="parorg4" value="Your body paragraphs are focused on a specific unit of thought, and you stay focused on that thought throughout the paragraph. However, you could develop that thought much more thoroughly. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="paragraphorganization" id="parorg5" value="Not only are your body paragraphs structured in a clear and coherent way, your paragraphs develop each unit of thought to the fullest extent possible. " >
+                    5
+                </label>
+            </div>
+
+            <p><b>Topic Sentences:</b> Does each body paragraph have an argumentative, prompt-based topic sentence that connects back to the thesis, and addresses the “what”, the “how”, and the “why” directly?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="topicsent" id="topicsent1" value="Your body paragraphs do not have discernable topic sentences. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="topicsent" id="topicsent2" value="Your body paragraphs have topic sentences, but they are neither argumentative nor specific enough to be effective. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="topicsent" id="topicsent3" value="You have topic sentences that connect back to the thesis and stay focused on the prompt's objectives. However, you must work on making all of these topic sentences more specific and descriptive in order to avoid vagueness. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="topicsent" id="topicsent4" value="You have topic sentences that connect back to the thesis and stay focused on the prompt's objectives. You also provide sufficient detail in each of these arguments. However, you could still improve these topic sentences by providing direct explanation of the &quot;why&quot; specific to its context in the article(s). " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="topicsent" id="topicsent5" value="Your topic sentences are clear, argumentative and address the &quot;what,&quot; the &quot;how,&quot; and the &quot;why.&quot; In addition, you do a fine job of explaining the &quot;why&quot; in context of the article(s) at hand. " >
+                    5
+                </label>
+            </div>
+
+            <p><b>Analysis:</b> Does the analysis always stay on  focused on the argument brought up in the topic sentence? Does it leverage textual evidence carefully and thoroughly? Does it also establish specific implications for each claim made?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="analysis" id="analysis1" value="There is little to no analysis in the body paragraphs. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="analysis" id="analysis2" value="There are brief moments of analysis in the body paragraphs, but the analysis is very vaguely connected to the textual evidence (if the evidence is present at all) and is not contextualized what-so-ever. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="analysis" id="analysis3" value="You do have some analysis in each of your body paragraphs, but your argument about the evidence is much too vague. You need to make sure that you are developing each claim as specifically as possible while you guide your reader through the relevant pieces of your evidence. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="analysis" id="analysis4" value="Your analysis is clear, has sufficient detail and points out the relevant details in the evidence you present. However, you can still work on developing specific implications for each claim you make in your analysis. In short, you need to zoom out to the bigger picture after you establish your arguments for the text(s) at hand. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="analysis" id="analysis5" value="Your analysis stays focused, it leverages the textual evidence carefully and thoroughly, and it does a fine job of drawing innovative, unique implications from each of the claims you make. " >
+                    5
+                </label>
+            </div>
+
+            <div class="collapse" id="synth">
+                <p><b>Synthesis:</b> For a multisource paper, you need to make sure that you synthesize your authors' perspectives throughout the entire paper and explain the implications of these connections. Did you avoid isolating the authors from one another? Did you explain the connections between the authors' perspectives thoroughly and clearly? Did you address the ideological relationships between your authors clearly and systematically? Did you address the implications of these connections fully and clearly?</p>
+                <div class="form-check btn-group" data-toggle="buttons">
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="synthesis" id="synthesis1" value="You did not attempt to synthesize the authors' relationships at all. At best, you just mentioned (or quoted) the other author in your body paragraphs. At worst, you did not mention other authors at all. " >
+                        1
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="synthesis" id="synthesis2" value="You attempted to synthesize the authors' perspectives, but you did so in a very vague or confusing way. Or, you forced a connection between the authors by cherry-picking/distorting evidence from one of the authors. " >
+                        2
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="synthesis" id="synthesis3" value="You attempted to synthesize the authors' perspectives, but your attempt was flawed because you did not explain the connection in depth and you did not address the implications of their connection with enough care. " >
+                        3
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="synthesis" id="synthesis4" value="You did synthesize the author's perspectives and you addressed some implications, but your synthesis was still a bit shallow. You could explore the &quot;bigger picture&quot; behind their ideological connections in a bit more detail. " >
+                        4
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="synthesis" id="synthesis5" value="Not only did you synthesize the authors' perspectives and draw relevant implications, but you also did so in a thorough and clear manner. Moreover, you developed the implications in an insightful and innovative way, which makes even the most seasoned reader stop and reevaluate his or her own perspective on the topic. " >
+                        5
+                    </label>
+                </div>
+            </div>
+
+            <p><b>Evidence:</b> Do you support each of your claims with specific evidence from the text(s)? Is each piece of evidence the best choice for each of your arguments? Did you introduce the evidence effectively?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="evidence" id="evidence1" value="Either there is no evidence for each claim or your evidence is irrelevant to the claim you are making. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="evidence" id="evidence2" value="You do have evidence for your claims, but the evidence does not connect to your argument directly and/or clearly. Lastly, your introductions to the quotations (the signal phrases) are either ineffective or absent. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="evidence" id="evidence3" value="You have relevant evidence for your claims and there is a connection to your argument. However, you did not introduce the evidence effectively with a well-developed signal phrase. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="evidence" id="evidence4" value="You have relevant evidence and you use adequate signal phrases to introduce your evidence. However, your signal phrases could be much more detailed and could flow much more smoothly. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="evidence" id="evidence5" value="You choose your evidence wisely; each excerpt serves a focused purpose. Also, you develop detailed and carefully-worded signal phrases that help prime the reader to look for specific elements in the quoted prose. " >
+                    5
+                </label>
+            </div>
+
+            <p><b>Transitions:</b> Do you use effective transitional phrases when you are switching between paragraphs, claims, or authors? Are these transitions clearly worded? Do they avoid repetition? Are they more than just basic, formulaic transitions? </p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="transitions" id="transitions1" value="There are no transitions between ideas. This makes your prose very choppy and greatly compromises your paper's readability. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="transitions" id="transitions2" value="Largely, there are few transitions between ideas. This makes your prose choppy and compromises your paper's readability. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="transitions" id="transitions3" value="There are a few transitional phrases littered thoroughout your paper, but you need to make sure that you create a transition EVERY TIME you are switching from one claim to another or move from one author's perspective to another's. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="transitions" id="transitions4" value="You have transitional phrases where you need them (when switching ideas or between authors' perspectives), but your transitional phrases could be rephrased to flow more smoothly. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="transitions" id="transitions5" value="You transition between ideas seamlessly and your paper flows naturally. This creates a very comfortable and enjoyable reading experience. " >
+                    5
+                </label>
+            </div>
+
+            <p><b>Sentence Clarity:</b> Is each sentence free of grammatical and punctuation errors? Is each word the perfect fit for the context it is used in? Is each sentence worded as clearly and concisely as it could be?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="sentenceclarity" id="sentclar1" value="Your argument is seriously compromised by various sentence-level errors and/or convoluted syntax. Please see the Writing Center before submitting your next essay. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="sentenceclarity" id="sentclar2" value="Your argument is compromised by various sentence-level errors and/or convoluted syntax. Please see the Writing Center before submitting your next essay. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="sentenceclarity" id="sentclar3" value="You have enough syntax and sentence-level errors to make your prose less readable (and this compromises your argument slightly). Please try to compose sentences that are as clear as possible. Visit the Writing Center with your next draft and/or check out this resource on sentence clarity: https://owl.english.purdue.edu/owl/resource/600/01/. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="sentenceclarity" id="sentclar4" value="You have some moments where you rephrase your sentences to be less convoluted. Also, there may be minor issues with your syntax, word choice and/or punctuation. You should spend some more time proofreading and revising your final draft before you submit it. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="sentenceclarity" id="sentclar5" value="Your paper is completely free of convoluted syntax and grammatical errors. " >
+                    5
+                </label>
+            </div>
+
+            <p><b>Spelling and Proofreading:</b> Is your paper COMPLETELY free of spelling and proofreading errors? </p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="spellproof" id="spellproof1" value="Your paper is littered with spelling and proofreading errors; this seriously impacts your paper's argument and readability. Please see the Writing Center before you submit the next assignment. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="spellproof" id="spellproof2" value="Your paper contains many spelling and proofreading errors; this impacts your paper's argument and readability. Please see the Writing Center before you submit the next assignment. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="spellproof" id="spellproof3" value="Your paper contains several spelling and proofreading errors; this impacts your paper's argument and readability. Please see the Writing Center before you submit the next assignment. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="spellproof" id="spellproof4" value="Your paper contains a few spelling and proofreading errors; this slightly impacts your paper's argument and readability. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="spellproof" id="spellproof5" value="Your paper contains NO proofreading and spelling errors. Well done! " >
+                    5
+                </label>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="addcomments" class="col-3 col-form-label">Additional Comments</label>
+                <div class="col-9">
+                    <textarea class="form-control" id="addcomments" rows="3" placeholder="Additional comments..."></textarea>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="populate();">Submit</button>
+            <button type="button" class="btn btn-primary" onclick="window.print();">Print</button>
+
+
+
+
+        </form>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="collapse" id="resultArea">
+    <div class="container page" id="resultWidth">
+        <div class="jumbotron" >
+
+            <div class="row" style="border-bottom: dashed">
+                <div class="col-4">
+                    <div id="studentHome" class="headers"></div>
+                </div>
+                <div class="col-4">
+                    <div id="assignmentHome" class="headers"></div>
+                </div>
+                <div class="col-4">
+                    <p>Comp 101 - Prof. Mcguire</p>
+                </div>
+            </div>
+
+            <p></p>
+
+            <div class="row">
+                <div class="col-7">
+                    <p><b>Misreading:</b> Did you read ALL parts of the article(s) accurately?</p>
+                </div>
+                <div class="col-5">
+                    <div class="form-check btn-group" data-toggle="buttons">
+                        <label class="form-check-label btn btn-primary button_width">
+                            <input class="form-check-input" type="radio" name="misreading" id="misreadingAlt1" value="You have misread a substantial part of the author(s)'s argument(s). This renders your entire argument invalid. " >
+                            1
+                        </label>
+                        <label class="form-check-label btn btn-primary button_width">
+                            <input class="form-check-input" type="radio" name="misreading" id="misreadingAlt2" value="You misread a portion of the author(s)'s argument. This compromises a piece of your argument. " >
+                            2
+                        </label>
+                        <label class="form-check-label btn btn-primary button_width">
+                            <input class="form-check-input" type="radio" name="misreading" id="misreadingAlt3" value="You demonstrate an entirely accurate reading of the author(s)'s argument(s). " >
+                            3
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <p><b>Thesis Statement:</b> Does the thesis answer all parts of the prompt and address the “what”, the “how”, and the “why” directly?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="thesis" id="thesisAlt1" value="The thesis does not answer the prompt question at all. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="thesis" id="thesisAlt2" value="The thesis answers the prompt question partially, and your central argument is unclear. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="thesis" id="thesisAlt3" value="The thesis answers the prompt question, but does so in a vague fashion. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="thesis" id="thesisAlt4" value="The thesis answers the prompt question and offers sufficient detail about the &quot;what,&quot; the &quot;how,&quot; and the &quot;why.&quot; " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="thesis" id="thesisAlt5" value="he thesis answers prompt question, but also presents a new insight on the issue at hand. You have gone above and beyond the assignment's requirements and may have broken new ground for this particular topic. " >
+                    5
+                </label>
+            </div>
+
+
+            <p><b>Overall Organization:</b> Does your essay follow a distinct and effective organizational pattern? (e.g. a clearly defined introduction with a clear thesis, organized and differentiated body paragraphs, and a conclusion that provides a sense of finality)?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="overallorganization" id="overorgAlt1" value="The essay lacks a clear organizational pattern: your claims are scattered in a way that derails your argument entirely. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="overallorganization" id="overorgAlt2" value="Your essay is largely disorganized, but has a few moments of clarity. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="overallorganization" id="overorgAlt3" value="Your essay does have a discernable organization pattern, but there are moments where your logic jumps abruptly or you veer off-topic. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="overallorganization" id="overorgAlt4" value="Generally, your essay is well-structured and your logic flows smoothly. There are, however, moments where you could restructure to make the logic cleaner and more readable. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="overallorganization" id="overorgAlt5" value="Your essay's organizational pattern was extremely clear without being too formulaic. " >
+                    5
+                </label>
+            </div>
+
+
+            <p><b>Paragraph Organization:</b> Are your body paragraphs focused, and do they develop one unit of thought as thoroughly as possible?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="paragraphorganization" id="parorgAlt1" value="On the paragraph level, your argument was completely unstructured. Paragraphs should be a very focused unit of thought, but your paragraphs lacked a clear and discernable argument. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="paragraphorganization" id="parorgAlt2" value="Your paragraph is largely unstructured, but may have some moments of unity and clarity. A body paragraph should be a very focused unit of thought and develop that thought as thoroughly as possible. Yours did not accomplish this particular goal. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="paragraphorganization" id="parorgAlt3" value="For the most part, your paragraphs do stay focused on one unit of thought at a time (a distinct claim), but there are instances where you start to veer off-topic or you make large, abrupt logical jumps.A body paragraph should be a very focused unit of thought and develop that thought as thoroughly as possible. Yours did not accomplish this particular goal fully. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="paragraphorganization" id="parorgAlt4" value="Your body paragraphs are focused on a specific unit of thought, and you stay focused on that thought throughout the paragraph. However, you could develop that thought much more thoroughly. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="paragraphorganization" id="parorgAlt5" value="Not only are your body paragraphs structured in a clear and coherent way, your paragraphs develop each unit of thought to the fullest extent possible. " >
+                    5
+                </label>
+            </div>
+
+
+            <p><b>Topic Sentences:</b> Does each body paragraph have an argumentative, prompt-based topic sentence that connects back to the thesis, and addresses the “what”, the “how”, and the “why” directly?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="topicsent" id="topicsentAlt1" value="Your body paragraphs do not have discernable topic sentences. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="topicsent" id="topicsentAlt2" value="Your body paragraphs have topic sentences, but they are neither argumentative nor specific enough to be effective. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="topicsent" id="topicsentAlt3" value="You have topic sentences that connect back to the thesis and stay focused on the prompt's objectives. However, you must work on making all of these topic sentences more specific and descriptive in order to avoid vagueness. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="topicsent" id="topicsentAlt4" value="You have topic sentences that connect back to the thesis and stay focused on the prompt's objectives. You also provide sufficient detail in each of these arguments. However, you could still improve these topic sentences by providing direct explanation of the &quot;why&quot; specific to its context in the article(s). " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="topicsent" id="topicsentAlt5" value="Your topic sentences are clear, argumentative and address the &quot;what,&quot; the &quot;how,&quot; and the &quot;why.&quot; In addition, you do a fine job of explaining the &quot;why&quot; in context of the article(s) at hand. " >
+                    5
+                </label>
+            </div>
+
+
+            <p><b>Analysis:</b> Does the analysis always stay on  focused on the argument brought up in the topic sentence? Does it leverage textual evidence carefully and thoroughly? Does it also establish specific implications for each claim made?</p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="analysis" id="analysisAlt1" value="There is little to no analysis in the body paragraphs. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="analysis" id="analysisAlt2" value="There are brief moments of analysis in the body paragraphs, but the analysis is very vaguely connected to the textual evidence (if the evidence is present at all) and is not contextualized what-so-ever. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="analysis" id="analysisAlt3" value="You do have some analysis in each of your body paragraphs, but your argument about the evidence is much too vague. You need to make sure that you are developing each claim as specifically as possible while you guide your reader through the relevant pieces of your evidence. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="analysis" id="analysisAlt4" value="Your analysis is clear, has sufficient detail and points out the relevant details in the evidence you present. However, you can still work on developing specific implications for each claim you make in your analysis. In short, you need to zoom out to the bigger picture after you establish your arguments for the text(s) at hand. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="analysis" id="analysisAlt5" value="Your analysis stays focused, it leverages the textual evidence carefully and thoroughly, and it does a fine job of drawing innovative, unique implications from each of the claims you make. " >
+                    5
+                </label>
+            </div>
+
+
+            <div class="collapse" id="synthAlt">
+                <p><b>Synthesis:</b> For a multisource paper, you need to make sure that you synthesize your authors' perspectives throughout the entire paper and explain the implications of these connections. Did you avoid isolating the authors from one another? Did you explain the connections between the authors' perspectives thoroughly and clearly? Did you address the ideological relationships between your authors clearly and systematically? Did you address the implications of these connections fully and clearly?</p>
+                <div class="form-check btn-group" data-toggle="buttons">
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="synthesis" id="synthesisAlt1" value="You did not attempt to synthesize the authors' relationships at all. At best, you just mentioned (or quoted) the other author in your body paragraphs. At worst, you did not mention other authors at all. " >
+                        1
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="synthesis" id="synthesisAlt2" value="You attempted to synthesize the authors' perspectives, but you did so in a very vague or confusing way. Or, you forced a connection between the authors by cherry-picking/distorting evidence from one of the authors. " >
+                        2
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="synthesis" id="synthesisAlt3" value="You attempted to synthesize the authors' perspectives, but your attempt was flawed because you did not explain the connection in depth and you did not address the implications of their connection with enough care. " >
+                        3
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="synthesis" id="synthesisAlt4" value="You did synthesize the author's perspectives and you addressed some implications, but your synthesis was still a bit shallow. You could explore the &quot;bigger picture&quot; behind their ideological connections in a bit more detail. " >
+                        4
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="synthesis" id="synthesisAlt5" value="Not only did you synthesize the authors' perspectives and draw relevant implications, but you also did so in a thorough and clear manner. Moreover, you developed the implications in an insightful and innovative way, which makes even the most seasoned reader stop and reevaluate his or her own perspective on the topic. " >
+                        5
+                    </label>
+                </div>
+            </div>
+
+
+            <div id="evi">
+                <p><b>Evidence:</b> Do you support each of your claims with specific evidence from the text(s)? Is each piece of evidence the best choice for each of your arguments? Did you introduce the evidence effectively?</p>
+                <div class="form-check btn-group" data-toggle="buttons">
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="evidence" id="evidenceAlt1" value="Either there is no evidence for each claim or your evidence is irrelevant to the claim you are making. " >
+                        1
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="evidence" id="evidenceAlt2" value="You do have evidence for your claims, but the evidence does not connect to your argument directly and/or clearly. Lastly, your introductions to the quotations (the signal phrases) are either ineffective or absent. " >
+                        2
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="evidence" id="evidenceAlt3" value="You have relevant evidence for your claims and there is a connection to your argument. However, you did not introduce the evidence effectively with a well-developed signal phrase. " >
+                        3
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="evidence" id="evidenceAlt4" value="You have relevant evidence and you use adequate signal phrases to introduce your evidence. However, your signal phrases could be much more detailed and could flow much more smoothly. " >
+                        4
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="evidence" id="evidenceAlt5" value="You choose your evidence wisely; each excerpt serves a focused purpose. Also, you develop detailed and carefully-worded signal phrases that help prime the reader to look for specific elements in the quoted prose. " >
+                        5
+                    </label>
+                </div>
+            </div>
+
+
+            <p><b>Transitions:</b> Do you use effective transitional phrases when you are switching between paragraphs, claims, or authors? Are these transitions clearly worded? Do they avoid repetition? Are they more than just basic, formulaic transitions? </p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="transitions" id="transitionsAlt1" value="There are no transitions between ideas. This makes your prose very choppy and greatly compromises your paper's readability. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="transitions" id="transitionsAlt2" value="Largely, there are few transitions between ideas. This makes your prose choppy and compromises your paper's readability. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="transitions" id="transitionsAlt3" value="There are a few transitional phrases littered thoroughout your paper, but you need to make sure that you create a transition EVERY TIME you are switching from one claim to another or move from one author's perspective to another's. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="transitions" id="transitionsAlt4" value="You have transitional phrases where you need them (when switching ideas or between authors' perspectives), but your transitional phrases could be rephrased to flow more smoothly. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="transitions" id="transitionsAlt5" value="You transition between ideas seamlessly and your paper flows naturally. This creates a very comfortable and enjoyable reading experience. " >
+                    5
+                </label>
+            </div>
+
+
+            <div id="sent">
+                <p><b>Sentence Clarity:</b> Is each sentence free of grammatical and punctuation errors? Is each word the perfect fit for the context it is used in? Is each sentence worded as clearly and concisely as it could be?</p>
+                <div class="form-check btn-group" data-toggle="buttons">
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="sentenceclarity" id="sentclarAlt1" value="Your argument is seriously compromised by various sentence-level errors and/or convoluted syntax. Please see the Writing Center before submitting your next essay. " >
+                        1
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="sentenceclarity" id="sentclarAlt2" value="Your argument is compromised by various sentence-level errors and/or convoluted syntax. Please see the Writing Center before submitting your next essay. " >
+                        2
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="sentenceclarity" id="sentclarAlt3" value="You have enough syntax and sentence-level errors to make your prose less readable (and this compromises your argument slightly). Please try to compose sentences that are as clear as possible. Visit the Writing Center with your next draft and/or check out this resource on sentence clarity: https://owl.english.purdue.edu/owl/resource/600/01/. " >
+                        3
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="sentenceclarity" id="sentclarAlt4" value="You have some moments where you rephrase your sentences to be less convoluted. Also, there may be minor issues with your syntax, word choice and/or punctuation. You should spend some more time proofreading and revising your final draft before you submit it. " >
+                        4
+                    </label>
+                    <label class="form-check-label btn btn-primary button_width">
+                        <input class="form-check-input" type="radio" name="sentenceclarity" id="sentclarAlt5" value="Your paper is completely free of convoluted syntax and grammatical errors. " >
+                        5
+                    </label>
+                </div>
+            </div>
+
+
+            <p><b>Spelling and Proofreading:</b> Is your paper COMPLETELY free of spelling and proofreading errors? </p>
+            <div class="form-check btn-group" data-toggle="buttons">
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="spellproof" id="spellproofAlt1" value="Your paper is littered with spelling and proofreading errors; this seriously impacts your paper's argument and readability. Please see the Writing Center before you submit the next assignment. " >
+                    1
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="spellproof" id="spellproofAlt2" value="Your paper contains many spelling and proofreading errors; this impacts your paper's argument and readability. Please see the Writing Center before you submit the next assignment. " >
+                    2
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="spellproof" id="spellproofAlt3" value="Your paper contains several spelling and proofreading errors; this impacts your paper's argument and readability. Please see the Writing Center before you submit the next assignment. " >
+                    3
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="spellproof" id="spellproofAlt4" value="Your paper contains a few spelling and proofreading errors; this slightly impacts your paper's argument and readability. " >
+                    4
+                </label>
+                <label class="form-check-label btn btn-primary button_width">
+                    <input class="form-check-input" type="radio" name="spellproof" id="spellproofAlt5" value="Your paper contains NO proofreading and spelling errors. Well done! " >
+                    5
+                </label>
+            </div>
+            <p class="headers">Comments:</p>
+            <div id="commentsHome"></div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
